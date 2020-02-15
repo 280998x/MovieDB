@@ -12,13 +12,20 @@ private let reuseIdentifier = "MovieCell"
 private let itemsPerRow: CGFloat = 2
 private let cache = NSCache<NSString, ImageCache>()
 private let spinner = UIActivityIndicatorView(style: .medium)
-private let sectionInsets = UIEdgeInsets(top: 25.0, left: 20.0, bottom: 25.0, right: 20.0)
+private let sectionInsets = UIEdgeInsets(top: 15.0, left: 10.0, bottom: 35.0, right: 10.0)
 
+private var context = HomeViewController()
 private var movies = [Movie]()
 private var page = 1
 private var loading = false
 
 final class MoviesViewController: UICollectionView {
+    
+    func setContext(controller: HomeViewController){
+        
+        context = controller
+        
+    }
     
     @objc func getMovies(){
         
@@ -44,7 +51,7 @@ final class MoviesViewController: UICollectionView {
                                   id: object["id"] as? Int,
                                   video: object["video"] as? Bool,
                                   vote_count: object["vote_count"] as? Int,
-                                  vote_average: object["vote_average"] as? Float,
+                                  vote_average: object["vote_average"] as? Double,
                                   title: object["title"] as? String,
                                   release_date: self.getDate(fromString: object["release_date"] as? String),
                                   original_language: object["original_language"] as? String,
@@ -69,19 +76,49 @@ final class MoviesViewController: UICollectionView {
         }
     }
     
-    func getDate(fromString: String?) -> Date?{
+    func getDate(fromString: String?) -> String?{
         
         if (fromString == nil) { return nil }
         
         let array = fromString!.split(separator: "-")
         // 2019-05-30
         
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd/MM/yyyy"
-        
-        let movieRelease = formatter.date(from: "\(array[0])/\(array[1])/\(array[2])")
+        let movieRelease = "\(array[2])-\(getMonth(fromString: String(array[1])))-\(array[0])"
         
         return movieRelease
+        
+    }
+    
+    func getMonth(fromString: String) -> String{
+        
+        switch fromString {
+        case "01":
+            return "Ene"
+        case "02":
+            return "Feb"
+        case "03":
+            return "Mar"
+        case "04":
+            return "Abr"
+        case "05":
+            return "May"
+        case "06":
+            return "Jun"
+        case "07":
+            return "Jul"
+        case "08":
+            return "Ago"
+        case "09":
+            return "Sep"
+        case "10":
+            return "Oct"
+        case "11":
+            return "Nov"
+        case "12":
+            return "Dic"
+        default:
+            return ""
+        }
         
     }
     
@@ -134,47 +171,78 @@ extension MoviesViewController: UICollectionViewDataSource, UICollectionViewDele
         return movies.count
     
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        context.movies = movies
+        context.index = indexPath.item
+        context.performSegue(withIdentifier: "showMovieDetails", sender: context)
+        
+    }
   
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
         if let path = movies[indexPath.item].poster_path{
             let image = cache.object(forKey: path as NSString)?.image ?? nil
-        
-            cell.backgroundView = UIImageView(image:image)
-            cell.backgroundView?.layer.cornerRadius = 10
-            cell.backgroundView?.layer.masksToBounds = true
+            
+            let width = cell.frame.width
+            let height = cell.frame.height
+            
+            let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: width, height: height))
+            
+            imageView.image = image
+            imageView.layer.cornerRadius = 10
+            imageView.layer.masksToBounds = true
+            
+            cell.addSubview(imageView)
+            
+            let detailsLabel = UILabel(frame: CGRect(x: 0, y: imageView.frame.maxY - imageView.frame.height/4, width: imageView.frame.width, height: imageView.frame.height/4))
+            let titleBox = UILabel(frame: CGRect(x: 10, y: 10, width: detailsLabel.frame.width - 20, height: detailsLabel.frame.height/2))
+            let dateBox = UILabel(frame: CGRect(x: 10, y: titleBox.frame.maxY - 5, width: detailsLabel.frame.width/2, height: detailsLabel.frame.height/2))
+            let ratingBox = UILabel(frame: CGRect(x: detailsLabel.frame.maxX - 50, y: titleBox.frame.maxY-5, width: 40, height: detailsLabel.frame.height/2))
+            
+            detailsLabel.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+            titleBox.backgroundColor = .clear
+            dateBox.backgroundColor = .clear
+            ratingBox.backgroundColor = .clear
+            
+            detailsLabel.layer.masksToBounds = true
+            titleBox.layer.masksToBounds = true
+            dateBox.layer.masksToBounds = true
+            ratingBox.layer.masksToBounds = true
+            
+            let titleAttributes: [NSAttributedString.Key: Any] = [
+                .font: UIFont.init(name: "Avenir-Black", size: 14)!
+            ]
+            let detailsAttributes: [NSAttributedString.Key: Any] = [
+                .font: UIFont.init(name: "Avenir-Black", size: 12)!
+            ]
+            
+            let title = NSAttributedString(string: movies[indexPath.item].title ?? "", attributes: titleAttributes)
+            let date = NSAttributedString(string: movies[indexPath.item].release_date ?? "", attributes: detailsAttributes)
+            let rating = NSAttributedString(string: String(movies[indexPath.item].vote_average ?? 0.0) == "0.0" ? "⭐️ N/A" : "⭐️ " + String(movies[indexPath.item].vote_average!), attributes: detailsAttributes)
+            
+            titleBox.attributedText = title
+            dateBox.attributedText = date
+            ratingBox.attributedText = rating
+            
+            titleBox.numberOfLines = 2
+            
+            titleBox.sizeToFit()
+            
+            titleBox.layer.masksToBounds = true
+            
+            titleBox.textColor = UIColor.white.withAlphaComponent(0.8)
+            dateBox.textColor = UIColor.white.withAlphaComponent(0.8)
+            ratingBox.textColor = UIColor.white.withAlphaComponent(0.8)
+            
+            detailsLabel.addSubview(titleBox)
+            detailsLabel.addSubview(dateBox)
+            detailsLabel.addSubview(ratingBox)
+            imageView.addSubview(detailsLabel)
             
         }
-        
-        let detailsLabel = UIView(frame: CGRect(x: 0, y: (cell.frame.maxY-100), width: cell.frame.width, height: 100))
-        let titleBox = UILabel(frame: CGRect(x: 0, y: 0, width: detailsLabel.frame.width, height: 30))
-        
-        detailsLabel.addSubview(titleBox)
-        cell.addSubview(detailsLabel)
-        
-        detailsLabel.layer.cornerRadius = 10
-        
-        detailsLabel.backgroundColor = UIColor.black.withAlphaComponent(0.7)
-        titleBox.backgroundColor = .clear
-        
-        detailsLabel.layer.mask = cell.layer.mask
-        titleBox.layer.mask = detailsLabel.layer.mask
-        
-        detailsLabel.layer.masksToBounds = true
-        titleBox.layer.masksToBounds = true
-        
-        let titleAttributes: [NSAttributedString.Key: Any] = [
-            .font: UIFont.init(name: "Avenir-Black", size: 10)
-        ]
-        
-        let title = NSAttributedString(string: movies[indexPath.row].title ?? "", attributes: titleAttributes)
-        
-        titleBox.attributedText = title
-        
-        titleBox.textColor = UIColor.white.withAlphaComponent(0.8)
-        
-        titleBox.textAlignment = .left
     
         return cell
     

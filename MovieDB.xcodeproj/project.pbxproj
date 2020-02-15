@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E703F95A23F6780A0059FC49 /* MovieDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E703F95923F6780A0059FC49 /* MovieDetailsViewController.swift */; };
 		E78ADBE023F53D42004E167C /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78ADBDF23F53D42004E167C /* Movie.swift */; };
 		E78ADBE223F556E9004E167C /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78ADBE123F556E9004E167C /* HomeViewController.swift */; };
 		E78ADBE423F5CEC8004E167C /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78ADBE323F5CEC8004E167C /* ImageCache.swift */; };
@@ -38,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E703F95923F6780A0059FC49 /* MovieDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewController.swift; sourceTree = "<group>"; };
 		E78ADBDF23F53D42004E167C /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		E78ADBE123F556E9004E167C /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		E78ADBE323F5CEC8004E167C /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
@@ -82,6 +84,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E793A8C523F66FF2009373D8 /* Objects */ = {
+			isa = PBXGroup;
+			children = (
+				E78ADBE323F5CEC8004E167C /* ImageCache.swift */,
+				E78ADBDF23F53D42004E167C /* Movie.swift */,
+			);
+			path = Objects;
+			sourceTree = "<group>";
+		};
 		E7E0537823F3D31600544C46 = {
 			isa = PBXGroup;
 			children = (
@@ -105,11 +116,11 @@
 		E7E0538323F3D31600544C46 /* MovieDB */ = {
 			isa = PBXGroup;
 			children = (
-				E78ADBE323F5CEC8004E167C /* ImageCache.swift */,
+				E793A8C523F66FF2009373D8 /* Objects */,
 				E7E0538423F3D31600544C46 /* AppDelegate.swift */,
 				E7E0538623F3D31600544C46 /* SceneDelegate.swift */,
 				E7E664DA23F49DCD00B3EEF7 /* MoviesViewController.swift */,
-				E78ADBDF23F53D42004E167C /* Movie.swift */,
+				E703F95923F6780A0059FC49 /* MovieDetailsViewController.swift */,
 				E78ADBE123F556E9004E167C /* HomeViewController.swift */,
 				E7E0538A23F3D31600544C46 /* Main.storyboard */,
 				E7E0538D23F3D31800544C46 /* Assets.xcassets */,
@@ -271,6 +282,7 @@
 				E78ADBE423F5CEC8004E167C /* ImageCache.swift in Sources */,
 				E78ADBE223F556E9004E167C /* HomeViewController.swift in Sources */,
 				E7E0538523F3D31600544C46 /* AppDelegate.swift in Sources */,
+				E703F95A23F6780A0059FC49 /* MovieDetailsViewController.swift in Sources */,
 				E7E0538723F3D31600544C46 /* SceneDelegate.swift in Sources */,
 				E7E664DB23F49DCD00B3EEF7 /* MoviesViewController.swift in Sources */,
 				E78ADBE023F53D42004E167C /* Movie.swift in Sources */,
