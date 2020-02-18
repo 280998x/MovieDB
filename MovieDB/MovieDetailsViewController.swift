@@ -15,6 +15,10 @@ class MovieDetailsViewController: UIViewController {
     let cache = NSCache<NSString,ImageCache>()
     let xSpacing: CGFloat = 20.0
     let ySpacing: CGFloat = 30.0
+    let screenWidth =  UIScreen.main.bounds.width
+    let screenHeight =  UIScreen.main.bounds.height
+    let safeArea = UIScreen.main.bounds.inset(by: UIEdgeInsets(top: 44, left: 0, bottom: 0, right: 0))
+    
     
     var backdrop_path: String = ""
     var movieTitle:String = ""
@@ -27,19 +31,15 @@ class MovieDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let screenWidth =  UIScreen.main.bounds.width
-        let screenHeight =  UIScreen.main.bounds.height
-        let safeArea = UIScreen.main.bounds.inset(by: UIEdgeInsets(top: 44, left: 0, bottom: 0, right: 0))
-        
-        let nav = self.navigationController?.navigationBar
+        let nav = self.navigationController!.navigationBar
         let navItem = UINavigationItem()
         
         navItem.leftBarButtonItem = UIBarButtonItem(title: "Regresar", style: .plain, target: self, action: #selector(dismissView))
         navItem.title = "Información"
         
-        nav!.items = [navItem]
+        nav.items = [navItem]
         
-        nav?.prefersLargeTitles = true
+        nav.prefersLargeTitles = true
         
         box.frame = safeArea
         
@@ -54,7 +54,7 @@ class MovieDetailsViewController: UIViewController {
         let genresBox = UILabel(frame: CGRect(x: xSpacing, y: vote_averageDescriptionBox.frame.maxY + ySpacing, width: box.frame.width - 10, height: ySpacing))
         let genresDescriptionBox = UILabel(frame: CGRect(x: xSpacing, y: genresBox.frame.maxY, width: 0, height: 0))
         let overviewBox = UILabel(frame: CGRect(x: xSpacing, y: genresDescriptionBox.frame.maxY + ySpacing, width: box.frame.width - 10, height: ySpacing))
-        let overviewDescriptionBox = UILabel(frame: CGRect(x: xSpacing, y: overviewBox.frame.maxY, width: box.frame.width - 40, height: 0))
+        let overviewDescriptionBox = UILabel(frame: CGRect(x: xSpacing, y: overviewBox.frame.maxY, width: box.frame.width - 40, height: 200))
         
         let bigTitleAttributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.init(name: "Avenir-Black", size: 25)!
@@ -108,7 +108,7 @@ class MovieDetailsViewController: UIViewController {
         overviewBox.attributedText = NSAttributedString(string: "Descripción", attributes: titleAttributes)
         overviewDescriptionBox.attributedText = NSAttributedString(string: overview, attributes: descriptionAttributes)
         
-        movieTitleBox.numberOfLines = 6
+        movieTitleBox.numberOfLines = 4
         overviewDescriptionBox.numberOfLines = 20
         
         runtimeDescriptionBox.sizeToFit()

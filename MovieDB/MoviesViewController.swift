@@ -231,8 +231,6 @@ extension MoviesViewController: UICollectionViewDataSource, UICollectionViewDele
             
             titleBox.sizeToFit()
             
-            titleBox.layer.masksToBounds = true
-            
             titleBox.textColor = UIColor.white.withAlphaComponent(0.8)
             dateBox.textColor = UIColor.white.withAlphaComponent(0.8)
             ratingBox.textColor = UIColor.white.withAlphaComponent(0.8)

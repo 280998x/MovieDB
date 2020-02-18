@@ -38,7 +38,7 @@ class HomeViewController: UIViewController {
                 if let json = try? JSONSerialization.jsonObject(with: data, options: []){
                     if let dictionary = json as? [String: Any] {
                         
-                        movieDetailsViewController.runtime = "\(dictionary["runtime"] as! Int) min"
+                        movieDetailsViewController.runtime = "\(dictionary["runtime"] ?? "N/A") min"
                     
                     }
                 }
