@@ -221,7 +221,7 @@ extension MoviesViewController: UICollectionViewDataSource, UICollectionViewDele
             
             let title = NSAttributedString(string: movies[indexPath.item].title ?? "", attributes: titleAttributes)
             let date = NSAttributedString(string: movies[indexPath.item].release_date ?? "", attributes: detailsAttributes)
-            let rating = NSAttributedString(string: String(movies[indexPath.item].vote_average ?? 0.0) == "0.0" ? "⭐️ N/A" : "⭐️ " + String(movies[indexPath.item].vote_average!), attributes: detailsAttributes)
+            let rating = NSAttributedString(string: String(movies[indexPath.item].vote_average ?? 0.0) == "0.0" ? "⭐️ N/A" : ("⭐️ " + String(movies[indexPath.item].vote_average!)), attributes: detailsAttributes)
             
             titleBox.attributedText = title
             dateBox.attributedText = date

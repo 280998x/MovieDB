@@ -44,7 +44,7 @@ class MovieDetailsViewController: UIViewController {
         box.frame = safeArea
         
         let headerBox = UIImageView(frame: CGRect(x: 0, y: 0, width: box.frame.width, height: box.frame.width * 0.5))
-        let movieTitleBox = UILabel(frame: CGRect(x: xSpacing, y: headerBox.frame.maxY, width: box.frame.width - 10, height: 130))
+        let movieTitleBox = UILabel(frame: CGRect(x: xSpacing, y: headerBox.frame.maxY, width: box.frame.width - xSpacing, height: 130))
         let runtimeBox = UILabel(frame: CGRect(x: xSpacing, y: movieTitleBox.frame.maxY, width: box.frame.width - 10, height: ySpacing))
         let runtimeDescriptionBox = UILabel(frame: CGRect(x: xSpacing, y: runtimeBox.frame.maxY, width: 0, height: 0))
         let release_dateBox = UILabel(frame: CGRect(x: xSpacing, y: runtimeDescriptionBox.frame.maxY + ySpacing, width: box.frame.width - 10, height: ySpacing))
@@ -52,7 +52,7 @@ class MovieDetailsViewController: UIViewController {
         let vote_averageBox = UILabel(frame: CGRect(x: xSpacing, y: release_dateDescriptionBox.frame.maxY + ySpacing, width: box.frame.width - 10, height: ySpacing))
         let vote_averageDescriptionBox = UILabel(frame: CGRect(x: xSpacing, y: vote_averageBox.frame.maxY, width: 0, height: 0))
         let genresBox = UILabel(frame: CGRect(x: xSpacing, y: vote_averageDescriptionBox.frame.maxY + ySpacing, width: box.frame.width - 10, height: ySpacing))
-        let genresDescriptionBox = UILabel(frame: CGRect(x: xSpacing, y: genresBox.frame.maxY, width: 0, height: 0))
+        let genresDescriptionBox = UILabel(frame: CGRect(x: xSpacing, y: genresBox.frame.maxY, width: box.frame.width, height: 0))
         let overviewBox = UILabel(frame: CGRect(x: xSpacing, y: genresDescriptionBox.frame.maxY + ySpacing, width: box.frame.width - 10, height: ySpacing))
         let overviewDescriptionBox = UILabel(frame: CGRect(x: xSpacing, y: overviewBox.frame.maxY, width: box.frame.width - 40, height: 200))
         
@@ -104,11 +104,12 @@ class MovieDetailsViewController: UIViewController {
         vote_averageBox.attributedText = NSAttributedString(string: "Calificación", attributes: titleAttributes)
         vote_averageDescriptionBox.attributedText = NSAttributedString(string: String(vote_average) == "0.0" ? "N/A" : String(vote_average), attributes: descriptionAttributes)
         genresBox.attributedText = NSAttributedString(string: "Géneros", attributes: titleAttributes)
-        genresDescriptionBox.attributedText = NSAttributedString(string: genres.description, attributes: descriptionAttributes)
+        genresDescriptionBox.attributedText = NSAttributedString(string: genres.description.replacingOccurrences(of: "\"", with: "").replacingOccurrences(of: "[", with: "").replacingOccurrences(of: "]", with: ""), attributes: descriptionAttributes)
         overviewBox.attributedText = NSAttributedString(string: "Descripción", attributes: titleAttributes)
         overviewDescriptionBox.attributedText = NSAttributedString(string: overview, attributes: descriptionAttributes)
         
         movieTitleBox.numberOfLines = 4
+        genresDescriptionBox.numberOfLines = 2
         overviewDescriptionBox.numberOfLines = 20
         
         runtimeDescriptionBox.sizeToFit()
